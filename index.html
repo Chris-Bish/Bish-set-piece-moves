@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Lineout Moves</title>
+<title>Bishopton RFC — Set Piece Moves</title>
 <style>
   :root{
-    --ink:#0f1b14;
-    --panel:#16241b;
-    --panel-2:#1d3024;
-    --accent:#e8a33d;
-    --paper:#f4f1ea;
-    --muted:#9fb3a4;
+    --black:#0a0a0a;
+    --black-2:#141414;
+    --green:#1e7a3c;
+    --green-dark:#12401f;
+    --gold:#f2c14e;
+    --paper:#ffffff;
+    --muted:#b3b3b3;
   }
   *{box-sizing:border-box;}
   html,body{
     margin:0;
     height:100%;
-    background:var(--ink);
+    background:var(--black);
     font-family:'Bahnschrift','Segoe UI Semibold','Arial Narrow',system-ui,sans-serif;
     color:var(--paper);
   }
@@ -26,27 +27,78 @@
     height:100%;
   }
   header{
-    background:var(--panel-2);
-    border-bottom:1px solid #2a3c30;
-    padding:14px 20px;
+    background:var(--black-2);
+    border-bottom:3px solid var(--green);
+    padding:16px 20px;
   }
-  header h1{
-    margin:0 0 12px;
-    font-size:18px;
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .brand .crest{
+    width:14px;
+    height:14px;
+    background:var(--green);
+    border:2px solid var(--gold);
+    border-radius:3px;
+    flex-shrink:0;
+  }
+  .brand h1{
+    margin:0;
+    font-size:19px;
     letter-spacing:0.5px;
     text-transform:uppercase;
     font-weight:800;
     color:var(--paper);
   }
+  .brand .sub{
+    font-size:12px;
+    letter-spacing:0.6px;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:700;
+  }
+  .categories{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+  }
+  .categories button{
+    background:transparent;
+    color:var(--muted);
+    border:1px solid #2a2a2a;
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .categories button:hover{
+    color:var(--paper);
+    border-color:var(--green);
+  }
+  .categories button.active{
+    background:var(--gold);
+    color:var(--black);
+    border-color:var(--gold);
+  }
   nav{
     display:flex;
     gap:8px;
     flex-wrap:wrap;
+    min-height:38px;
   }
   nav button{
-    background:var(--panel);
+    background:var(--green-dark);
     color:var(--paper);
-    border:1px solid #2a3c30;
+    border:1px solid var(--green);
     padding:10px 16px;
     border-radius:6px;
     font-size:13px;
@@ -57,16 +109,22 @@
     transition:background 0.15s ease, color 0.15s ease;
   }
   nav button:hover{
-    background:#243425;
+    background:var(--green);
   }
   nav button.active{
-    background:var(--accent);
-    color:#1b1402;
-    border-color:var(--accent);
+    background:var(--gold);
+    color:var(--black);
+    border-color:var(--gold);
+  }
+  nav .placeholder{
+    color:var(--muted);
+    font-size:13px;
+    font-style:italic;
+    padding:10px 4px;
   }
   .frame-wrap{
     flex:1;
-    background:var(--ink);
+    background:var(--black);
   }
   iframe{
     width:100%;
@@ -81,6 +139,8 @@
     height:100%;
     color:var(--muted);
     font-size:14px;
+    text-align:center;
+    padding:0 20px;
   }
 </style>
 </head>
@@ -88,42 +148,104 @@
 
 <div class="app">
   <header>
-    <h1>Lineout Moves</h1>
-    <nav id="nav">
-      <button data-src="lineout-green.html">Green</button>
-      <button data-src="lineout-black.html">Black</button>
-      <button data-src="lineout-yellow.html">Yellow</button>
-      <button data-src="lineout-positive.html">Positive</button>
-      <button data-src="lineout-negative.html">Negative</button>
-    </nav>
+    <div class="brand">
+      <span class="crest"></span>
+      <h1>Bishopton RFC</h1>
+      <span class="sub">Set Piece Moves</span>
+    </div>
+    <div class="categories" id="categories"></div>
+    <nav id="nav"></nav>
   </header>
   <div class="frame-wrap" id="frameWrap">
-    <div class="empty">Select a move above</div>
+    <div class="empty">Select a category and a move above</div>
   </div>
 </div>
 
 <script>
-  const nav = document.getElementById('nav');
+  // Add new moves here as you invent them — just add a {label, src} entry
+  // to the relevant category's "moves" array. New categories can be added
+  // the same way, with an empty moves array to start.
+  const categories = [
+    {
+      name: "5-Man Lineouts",
+      moves: [
+        {label:"Green", src:"lineout-green.html"},
+        {label:"Black", src:"lineout-black.html"},
+        {label:"Yellow", src:"lineout-yellow.html"},
+        {label:"Positive", src:"lineout-positive.html"},
+        {label:"Negative", src:"lineout-negative.html"},
+      ]
+    },
+    {
+      name: "7-Man Lineouts",
+      moves: []
+    },
+    {
+      name: "Short Penalties",
+      moves: []
+    },
+    {
+      name: "Kick Positions",
+      moves: []
+    },
+  ];
+
+  const categoriesEl = document.getElementById('categories');
+  const navEl = document.getElementById('nav');
   const frameWrap = document.getElementById('frameWrap');
-  const buttons = nav.querySelectorAll('button');
+
+  let activeCategoryIndex = 0;
+
+  function renderCategories(){
+    categoriesEl.innerHTML = '';
+    categories.forEach((cat, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = cat.name;
+      if(i === activeCategoryIndex) btn.classList.add('active');
+      btn.addEventListener('click', () => selectCategory(i));
+      categoriesEl.appendChild(btn);
+    });
+  }
+
+  function renderMoves(){
+    navEl.innerHTML = '';
+    const cat = categories[activeCategoryIndex];
+
+    if(cat.moves.length === 0){
+      const p = document.createElement('div');
+      p.className = 'placeholder';
+      p.textContent = `No moves added yet in ${cat.name}.`;
+      navEl.appendChild(p);
+      frameWrap.innerHTML = `<div class="empty">No moves added yet in ${cat.name} — check back once some have been built.</div>`;
+      return;
+    }
+
+    cat.moves.forEach((move, i) => {
+      const btn = document.createElement('button');
+      btn.textContent = move.label;
+      btn.addEventListener('click', () => loadMove(move.src, btn));
+      navEl.appendChild(btn);
+      if(i === 0) loadMove(move.src, btn);
+    });
+  }
 
   function loadMove(src, btn){
     frameWrap.innerHTML = '';
     const iframe = document.createElement('iframe');
     iframe.src = src;
     frameWrap.appendChild(iframe);
-    buttons.forEach(b => b.classList.remove('active'));
+    navEl.querySelectorAll('button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => loadMove(btn.dataset.src, btn));
-  });
-
-  // Load the first move by default
-  if(buttons.length){
-    loadMove(buttons[0].dataset.src, buttons[0]);
+  function selectCategory(i){
+    activeCategoryIndex = i;
+    renderCategories();
+    renderMoves();
   }
+
+  renderCategories();
+  renderMoves();
 </script>
 
 </body>
