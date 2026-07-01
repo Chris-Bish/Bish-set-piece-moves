@@ -1,0 +1,1 @@
+Bish set piece moves
