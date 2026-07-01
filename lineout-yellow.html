@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Yellow — Decoy Front, Real Back Pod | 5-Man Lineout</title>
+<style>
+  :root{
+    --pitch:#1f5c38;
+    --pitch-line:#eef3ec;
+    --attack:#1b3a5c;
+    --attack-light:#3a6ea5;
+    --defense:#7a2e2e;
+    --ball:#a9712f;
+    --accent:#e8a33d;
+    --decoy:#8a6a2e;
+    --ink:#0f1b14;
+    --panel:#16241b;
+    --panel-2:#1d3024;
+    --paper:#f4f1ea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    font-family:'Bahnschrift','Segoe UI Semibold','Arial Narrow',system-ui,sans-serif;
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 14px 40px;
+  }
+  h1{
+    font-size:clamp(20px,4vw,30px);
+    letter-spacing:0.5px;
+    margin:0 0 2px;
+    text-transform:uppercase;
+    font-weight:800;
+  }
+  .sub{
+    color:#9fb3a4;
+    font-size:13px;
+    margin-bottom:18px;
+    letter-spacing:0.4px;
+  }
+  .stage{
+    width:100%;
+    max-width:880px;
+    background:var(--panel);
+    border:1px solid #2a3c30;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .pitch-wrap{
+    background:var(--pitch);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 40px, rgba(0,0,0,0.02) 40px 80px);
+    position:relative;
+  }
+  svg{display:block; width:100%; height:auto;}
+  .ticker{
+    background:var(--panel-2);
+    border-top:1px solid #2a3c30;
+    border-bottom:1px solid #2a3c30;
+    padding:10px 16px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .ticker .step-num{
+    background:var(--accent);
+    color:#1b1402;
+    font-weight:800;
+    font-size:13px;
+    padding:2px 8px;
+    border-radius:3px;
+    letter-spacing:0.5px;
+  }
+  .ticker .step-title{
+    font-weight:800;
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+  }
+  .ticker .step-note{
+    color:#c7d6cc;
+    font-size:13px;
+    margin-left:auto;
+    text-align:right;
+    max-width:55%;
+  }
+  .controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 16px 18px;
+    flex-wrap:wrap;
+  }
+  button{
+    background:var(--attack);
+    color:var(--paper);
+    border:1px solid var(--attack-light);
+    padding:9px 14px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.3px;
+    cursor:pointer;
+    text-transform:uppercase;
+    transition:background 0.15s ease;
+  }
+  button:hover{background:var(--attack-light);}
+  button.primary{
+    background:var(--accent);
+    color:#1b1402;
+    border-color:var(--accent);
+  }
+  button.primary:hover{filter:brightness(1.08);}
+  button:disabled{opacity:0.35; cursor:default;}
+  .dots{
+    display:flex;
+    gap:6px;
+    margin-left:4px;
+  }
+  .dot{
+    width:8px;height:8px;border-radius:50%;
+    background:#3a4d40;
+    cursor:pointer;
+  }
+  .dot.active{background:var(--accent);}
+  .legend{
+    display:flex;
+    gap:18px;
+    padding:0 16px 18px;
+    font-size:12px;
+    color:#9fb3a4;
+    flex-wrap:wrap;
+  }
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:50%;display:inline-block;}
+</style>
+</head>
+<body>
+
+<h1>Yellow — Decoy Front, Real Back Pod</h1>
+<div class="sub">5-MAN LINEOUT (L1·L3·L4·L5·L7) · DECOY AT L3 · REAL LIFT AT L5.5</div>
+
+<div class="stage">
+  <div class="pitch-wrap">
+    <svg id="pitch" viewBox="0 0 820 760" xmlns="http://www.w3.org/2000/svg">
+      <!-- Touchline -->
+      <line x1="60" y1="20" x2="60" y2="740" stroke="#eef3ec" stroke-width="3"/>
+      <text x="38" y="380" fill="#eef3ec" font-size="11" font-weight="700" transform="rotate(-90 38 380)" opacity="0.8">TOUCHLINE</text>
+
+      <!-- 5m line -->
+      <line x1="240" y1="20" x2="240" y2="740" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <text x="243" y="34" fill="#eef3ec" font-size="10" opacity="0.6">5M</text>
+
+      <!-- 15m line -->
+      <line x1="600" y1="20" x2="600" y2="740" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <text x="603" y="34" fill="#eef3ec" font-size="10" opacity="0.6">15M</text>
+
+      <!-- gap guide -->
+      <line x1="60" y1="660" x2="600" y2="660" stroke="#ffffff" stroke-width="0.5" opacity="0.15"/>
+
+      <!-- direction arrow: attack -->
+      <text x="690" y="735" fill="#9fb3a4" font-size="11" font-weight="700" letter-spacing="1">FIELD →</text>
+
+      <!-- Movement arrows layer (drawn dynamically) -->
+      <g id="arrows"></g>
+
+      <!-- Ball trail -->
+      <path id="ball-trail" d="" stroke="var(--accent)" stroke-width="2" fill="none" stroke-dasharray="4 5" opacity="0"/>
+
+      <!-- Defense players (static, mirrored row) -->
+      <g id="defense"></g>
+
+      <!-- Attack players -->
+      <g id="attack"></g>
+
+      <!-- Ball -->
+      <ellipse id="ball" cx="60" cy="660" rx="7" ry="5" fill="var(--ball)" stroke="#1b1402" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="ticker">
+    <span class="step-num" id="step-num">1/5</span>
+    <span class="step-title" id="step-title">Set the line</span>
+    <span class="step-note" id="step-note"></span>
+  </div>
+
+  <div class="controls">
+    <button id="prev">◀ Back</button>
+    <button id="playpause" class="primary">▶ Play</button>
+    <button id="next">Next ▶</button>
+    <button id="reset">Reset</button>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--attack)"></i> Attacking forwards</span>
+    <span><i class="swatch" style="background:var(--accent)"></i> Planned catcher</span>
+    <span><i class="swatch" style="background:var(--attack-light)"></i> Scrum-half / Fly-half</span>
+    <span><i class="swatch" style="background:var(--defense)"></i> Defending line</span>
+    <span><i class="swatch" style="background:var(--ball)"></i> Ball</span>
+  </div>
+</div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+
+// Attack roster, front to back: 1 (lift only), 4 (decoy jumper), 8 (lifter, shifts back),
+// 5 (real jumper), 6 (lifter, shifts forward)
+const attackRoster = [
+  {id:'P1', label:'1', role:'Lifter only (L1)'},
+  {id:'P4', label:'4', role:'Decoy jumper (L3)'},
+  {id:'P8', label:'8', role:'Lifter (L4 → L5.5 support)'},
+  {id:'P5', label:'5', role:'Real jumper (L5 → L5.5)'},
+  {id:'P6', label:'6', role:'Lifter (L7 → L5.5 support)'},
+  {id:'SH', label:'9', role:'Scrum-half (S5)'},
+  {id:'FH', label:'10', role:'Fly-half (standard)'},
+  {id:'TH', label:'2', role:'Thrower'},
+];
+
+const defenseRoster = [
+  {id:'X1', label:'1'},
+  {id:'X3', label:'4'},
+  {id:'X4', label:'5'},
+  {id:'X5', label:'6'},
+  {id:'X7', label:'7'},
+];
+
+const defensePos = {
+  X1:[240,680], X3:[360,680], X4:[420,680], X5:[480,680], X7:[600,680]
+};
+
+const steps = [
+  {
+    title: "Set the line",
+    note: "1, 4, 8, 5, 6 hold L1, L3, L4, L5, L7. 9 sets deep at S5 to cover the back pod. Nobody moves till the throw is released.",
+    pos: {
+      TH:[60,660], P1:[240,640], P4:[360,640], P8:[420,640], P5:[480,640], P6:[600,640],
+      SH:[600,532], FH:[744,370]
+    },
+    ball:[60,660],
+    arrow:null
+  },
+  {
+    title: "Ball's away — decoy jumps, real pod shifts",
+    note: "4 goes up as a decoy at the front, holding no ground. Meanwhile 8 drops back off L4 and 6 comes forward off L7, both converging toward the real target.",
+    pos: {
+      TH:[60,660], P1:[240,640], P4:[360,652], P8:[450,650], P5:[495,646], P6:[555,650],
+      SH:[600,532], FH:[744,370]
+    },
+    ball:[350,660],
+    arrow:{from:[60,660], to:[510,660]}
+  },
+  {
+    title: "Lift & catch — real target at L5.5",
+    note: "8 and 6 close in from either side and lift 5 up between L5 and L6 — while 4's decoy at the front has already pulled defenders' eyes away from the real ball.",
+    pos: {
+      TH:[60,660], P1:[240,640], P4:[360,640], P8:[495,655], P5:[510,662], P6:[525,655],
+      SH:[600,532], FH:[744,370]
+    },
+    ball:[510,662],
+    arrow:null
+  },
+  {
+    title: "Pop to 9",
+    note: "5 fires it back to 9, who hasn't had to move — he was already sitting at S5, right in behind the real target.",
+    pos: {
+      TH:[60,660], P1:[240,640], P4:[360,640], P8:[495,650], P5:[510,655], P6:[525,650],
+      SH:[600,532], FH:[744,370]
+    },
+    ball:[600,532],
+    arrow:{from:[510,662], to:[600,532]}
+  },
+  {
+    title: "Clear the ball",
+    note: "9 fires it flat to 10, who's driving forward from his usual starting spot to take it at pace.",
+    pos: {
+      TH:[60,660], P1:[240,640], P4:[360,640], P8:[495,650], P5:[510,655], P6:[525,650],
+      SH:[600,532], FH:[744,442]
+    },
+    ball:[744,442],
+    arrow:{from:[600,532], to:[744,442]}
+  },
+];
+
+const svg = document.getElementById('pitch');
+const attackG = document.getElementById('attack');
+const defenseG = document.getElementById('defense');
+const arrowsG = document.getElementById('arrows');
+const ballEl = document.getElementById('ball');
+
+function makePlayer(p, color, group, posMap){
+  const g = document.createElementNS(NS,'g');
+  g.setAttribute('id', 'player-'+p.id);
+  const [x,y] = posMap[p.id];
+  g.setAttribute('transform', `translate(${x},${y})`);
+  g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
+
+  const circle = document.createElementNS(NS,'circle');
+  circle.setAttribute('r', 13);
+  circle.setAttribute('fill', color);
+  circle.setAttribute('stroke', '#0f1b14');
+  circle.setAttribute('stroke-width', 1.5);
+  g.appendChild(circle);
+
+  const text = document.createElementNS(NS,'text');
+  text.setAttribute('text-anchor','middle');
+  text.setAttribute('dy', 4);
+  text.setAttribute('fill', '#f4f1ea');
+  text.setAttribute('font-size', 11);
+  text.setAttribute('font-weight', 800);
+  text.textContent = p.label;
+  g.appendChild(text);
+
+  group.appendChild(g);
+  return g;
+}
+
+// build defense (static, dimmer)
+defenseRoster.forEach(p=>{
+  makePlayer(p, 'var(--defense)', defenseG, defensePos);
+});
+defenseG.style.opacity = 0.55;
+
+// build attack
+const attackEls = {};
+attackRoster.forEach(p=>{
+  let color = 'var(--attack)';
+  if(p.id==='SH'||p.id==='FH') color = 'var(--attack-light)';
+  if(p.id==='P5') color = 'var(--accent)';
+  attackEls[p.id] = makePlayer(p, color, attackG, steps[0].pos);
+});
+
+function setStep(idx){
+  const s = steps[idx];
+  Object.keys(s.pos).forEach(id=>{
+    const [x,y] = s.pos[id];
+    if(attackEls[id]) attackEls[id].setAttribute('transform', `translate(${x},${y})`);
+  });
+  ballEl.style.transition = 'cx 0.7s cubic-bezier(.4,0,.2,1), cy 0.7s cubic-bezier(.4,0,.2,1)';
+  ballEl.setAttribute('cx', s.ball[0]);
+  ballEl.setAttribute('cy', s.ball[1]);
+
+  arrowsG.innerHTML = '';
+  if(s.arrow){
+    const line = document.createElementNS(NS,'line');
+    line.setAttribute('x1', s.arrow.from[0]);
+    line.setAttribute('y1', s.arrow.from[1]);
+    line.setAttribute('x2', s.arrow.to[0]);
+    line.setAttribute('y2', s.arrow.to[1]);
+    line.setAttribute('stroke', 'var(--accent)');
+    line.setAttribute('stroke-width', 2);
+    line.setAttribute('stroke-dasharray', '5 5');
+    line.setAttribute('marker-end', 'url(#arrowhead)');
+    line.setAttribute('opacity', 0.9);
+    arrowsG.appendChild(line);
+  }
+
+  document.getElementById('step-num').textContent = `${idx+1}/${steps.length}`;
+  document.getElementById('step-title').textContent = s.title;
+  document.getElementById('step-note').textContent = s.note;
+
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===idx));
+
+  document.getElementById('prev').disabled = idx===0;
+  document.getElementById('next').disabled = idx===steps.length-1;
+}
+
+const defs = document.createElementNS(NS,'defs');
+defs.innerHTML = `<marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+  <path d="M0,0 L6,3 L0,6 Z" fill="var(--accent)"/>
+</marker>`;
+svg.insertBefore(defs, svg.firstChild);
+
+const dotsWrap = document.getElementById('dots');
+steps.forEach((s,i)=>{
+  const dot = document.createElement('div');
+  dot.className = 'dot' + (i===0?' active':'');
+  dot.addEventListener('click', ()=>{ stopPlay(); current=i; setStep(i); });
+  dotsWrap.appendChild(dot);
+});
+
+let current = 0;
+let playing = false;
+let playTimer = null;
+
+function stopPlay(){
+  playing = false;
+  clearInterval(playTimer);
+  document.getElementById('playpause').textContent = '▶ Play';
+}
+
+document.getElementById('prev').addEventListener('click', ()=>{
+  stopPlay();
+  if(current>0){ current--; setStep(current); }
+});
+document.getElementById('next').addEventListener('click', ()=>{
+  stopPlay();
+  if(current<steps.length-1){ current++; setStep(current); }
+});
+document.getElementById('reset').addEventListener('click', ()=>{
+  stopPlay();
+  current = 0;
+  setStep(current);
+});
+document.getElementById('playpause').addEventListener('click', ()=>{
+  if(playing){
+    stopPlay();
+  } else {
+    playing = true;
+    document.getElementById('playpause').textContent = '⏸ Pause';
+    if(current===steps.length-1){ current=0; setStep(current); }
+    playTimer = setInterval(()=>{
+      if(current < steps.length-1){
+        current++;
+        setStep(current);
+      } else {
+        stopPlay();
+      }
+    }, 1600);
+  }
+});
+
+setStep(0);
+</script>
+</body>
+</html>

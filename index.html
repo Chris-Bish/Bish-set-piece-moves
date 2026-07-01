@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lineout Moves</title>
+<style>
+  :root{
+    --ink:#0f1b14;
+    --panel:#16241b;
+    --panel-2:#1d3024;
+    --accent:#e8a33d;
+    --paper:#f4f1ea;
+    --muted:#9fb3a4;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    height:100%;
+    background:var(--ink);
+    font-family:'Bahnschrift','Segoe UI Semibold','Arial Narrow',system-ui,sans-serif;
+    color:var(--paper);
+  }
+  .app{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+  header{
+    background:var(--panel-2);
+    border-bottom:1px solid #2a3c30;
+    padding:14px 20px;
+  }
+  header h1{
+    margin:0 0 12px;
+    font-size:18px;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    font-weight:800;
+    color:var(--paper);
+  }
+  nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  nav button{
+    background:var(--panel);
+    color:var(--paper);
+    border:1px solid #2a3c30;
+    padding:10px 16px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.3px;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background 0.15s ease, color 0.15s ease;
+  }
+  nav button:hover{
+    background:#243425;
+  }
+  nav button.active{
+    background:var(--accent);
+    color:#1b1402;
+    border-color:var(--accent);
+  }
+  .frame-wrap{
+    flex:1;
+    background:var(--ink);
+  }
+  iframe{
+    width:100%;
+    height:100%;
+    border:none;
+    display:block;
+  }
+  .empty{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+    color:var(--muted);
+    font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>Lineout Moves</h1>
+    <nav id="nav">
+      <button data-src="lineout-green.html">Green</button>
+      <button data-src="lineout-black.html">Black</button>
+      <button data-src="lineout-yellow.html">Yellow</button>
+      <button data-src="lineout-positive.html">Positive</button>
+      <button data-src="lineout-negative.html">Negative</button>
+    </nav>
+  </header>
+  <div class="frame-wrap" id="frameWrap">
+    <div class="empty">Select a move above</div>
+  </div>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  const frameWrap = document.getElementById('frameWrap');
+  const buttons = nav.querySelectorAll('button');
+
+  function loadMove(src, btn){
+    frameWrap.innerHTML = '';
+    const iframe = document.createElement('iframe');
+    iframe.src = src;
+    frameWrap.appendChild(iframe);
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => loadMove(btn.dataset.src, btn));
+  });
+
+  // Load the first move by default
+  if(buttons.length){
+    loadMove(buttons[0].dataset.src, buttons[0]);
+  }
+</script>
+
+</body>
+</html>
