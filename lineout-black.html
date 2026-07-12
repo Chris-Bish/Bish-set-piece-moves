@@ -228,7 +228,7 @@ const defenseRoster = [
 ];
 
 const defensePos = {
-  X1:[240,680], X3:[360,680], X4:[420,680], X5:[480,680], X7:[600,680]
+  X1:[240,710], X3:[360,710], X4:[420,710], X5:[480,710], X7:[600,710]
 };
 
 const steps = [
@@ -246,7 +246,7 @@ const steps = [
     title: "Ball's away — pod closes",
     note: "The moment it leaves his hand, the L3 and L5 forwards close in on 4 at L4. 5 and 6 stay upright at L1 and L7 — live decoy options, not part of this lift.",
     pos: {
-      TH:[60,660], D1:[240,640], L3:[390,648], J:[420,650], L5:[450,648], D7:[600,640],
+      TH:[60,660], D1:[240,640], L3:[378,646], J:[420,660], L5:[462,648], D7:[600,640],
       SH:[510,532], FH:[744,370]
     },
     ball:[250,660],
@@ -256,7 +256,7 @@ const steps = [
     title: "Lift & catch",
     note: "3 and 1 drive 4 straight up in the middle of the corridor — well clear of the defensive line, with two live options either side of him.",
     pos: {
-      TH:[60,660], D1:[240,640], L3:[405,655], J:[420,662], L5:[435,655], D7:[600,640],
+      TH:[60,660], D1:[240,640], L3:[378,650], J:[420,666], L5:[462,650], D7:[600,640],
       SH:[510,532], FH:[744,370]
     },
     ball:[420,662],
@@ -266,7 +266,7 @@ const steps = [
     title: "Pop to 9",
     note: "4 fires it back to 9, who hasn't had to move — he's already standing at S4, right in behind the middle pod.",
     pos: {
-      TH:[60,660], D1:[240,640], L3:[400,650], J:[420,655], L5:[440,650], D7:[600,640],
+      TH:[60,660], D1:[240,640], L3:[378,648], J:[420,660], L5:[462,648], D7:[600,640],
       SH:[510,532], FH:[744,370]
     },
     ball:[510,532],
@@ -276,7 +276,7 @@ const steps = [
     title: "Clear the ball",
     note: "9 fires it flat to 10, who's driving forward from his usual starting spot to take it at pace.",
     pos: {
-      TH:[60,660], D1:[240,640], L3:[400,650], J:[420,655], L5:[440,650], D7:[600,640],
+      TH:[60,660], D1:[240,640], L3:[378,648], J:[420,660], L5:[462,648], D7:[600,640],
       SH:[510,532], FH:[744,442]
     },
     ball:[744,442],
@@ -298,7 +298,7 @@ function makePlayer(p, color, group, posMap){
   g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
 
   const circle = document.createElementNS(NS,'circle');
-  circle.setAttribute('r', 13);
+  circle.setAttribute('r', 19.5);
   circle.setAttribute('fill', color);
   circle.setAttribute('stroke', '#0f1b14');
   circle.setAttribute('stroke-width', 1.5);
@@ -308,7 +308,7 @@ function makePlayer(p, color, group, posMap){
   text.setAttribute('text-anchor','middle');
   text.setAttribute('dy', 4);
   text.setAttribute('fill', '#f4f1ea');
-  text.setAttribute('font-size', 11);
+  text.setAttribute('font-size', 15);
   text.setAttribute('font-weight', 800);
   text.textContent = p.label;
   g.appendChild(text);

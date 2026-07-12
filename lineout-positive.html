@@ -229,7 +229,7 @@ const defenseRoster = [
 ];
 
 const defensePos = {
-  X1:[240,680], X3:[360,680], X4:[420,680], X5:[480,680], X7:[600,680]
+  X1:[240,710], X3:[360,710], X4:[420,710], X5:[480,710], X7:[600,710]
 };
 
 const steps = [
@@ -247,7 +247,7 @@ const steps = [
     title: "Decoy forms — looks like Black",
     note: "4 and 5 close in on 8 in the middle — the exact shape as Black's real lift. 1 and 6 hold their ground, uninvolved. The ball hasn't left 2's hands.",
     pos: {
-      TH:[60,660], P1:[240,640], P4:[390,646], P8:[420,648], P5:[450,646], P6:[600,640],
+      TH:[60,660], P1:[240,640], P4:[378,644], P8:[420,658], P5:[462,646], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[60,660],
@@ -257,7 +257,7 @@ const steps = [
     title: "Decoy breaks — sprint to the front",
     note: "8 and 5 break off the fake lift together and sprint to the front, staying connected the whole way — 5 stays tucked in behind 8, same as he was in the decoy. 4 peels back to fill the gap at L5. 1 holds, ready to lift.",
     pos: {
-      TH:[60,660], P1:[240,640], P4:[465,643], P8:[320,644], P5:[350,644], P6:[600,640],
+      TH:[60,660], P1:[240,640], P4:[465,643], P8:[305,644], P5:[365,644], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[60,660],
@@ -267,7 +267,7 @@ const steps = [
     title: "Real pod sets at the front",
     note: "1, 8 and 5 lock into the real pod at the front — the classic Green shape, with 5 still connected right behind 8. 4 is now anchored at L5, well clear of the action.",
     pos: {
-      TH:[60,660], P1:[255,648], P4:[480,640], P8:[270,650], P5:[288,648], P6:[600,640],
+      TH:[60,660], P1:[240,646], P4:[480,640], P8:[280,660], P5:[322,648], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[60,660],
@@ -277,7 +277,7 @@ const steps = [
     title: "Ball's away — front pod lifts",
     note: "Only now does 2 release it — flat and perpendicular, straight down to the front. 1 and 5 drive 8 up to meet it.",
     pos: {
-      TH:[60,660], P1:[256,652], P4:[480,640], P8:[270,656], P5:[286,652], P6:[600,640],
+      TH:[60,660], P1:[240,648], P4:[480,640], P8:[280,662], P5:[322,650], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[170,660],
@@ -287,7 +287,7 @@ const steps = [
     title: "Lift & catch",
     note: "Clean catch at the top — exactly like Green. 8 (who started this move at L4) claims it, having got there by a completely different route.",
     pos: {
-      TH:[60,660], P1:[258,648], P4:[480,640], P8:[270,662], P5:[284,648], P6:[600,640],
+      TH:[60,660], P1:[240,648], P4:[480,640], P8:[280,664], P5:[322,650], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[270,662],
@@ -297,7 +297,7 @@ const steps = [
     title: "Pop to 9",
     note: "8 pops it back to 9, who's already sitting at S3, right in behind the front pod.",
     pos: {
-      TH:[60,660], P1:[255,650], P4:[480,640], P8:[270,655], P5:[286,650], P6:[600,640],
+      TH:[60,660], P1:[240,648], P4:[480,640], P8:[282,662], P5:[325,648], P6:[600,640],
       SH:[420,532], FH:[744,370]
     },
     ball:[420,532],
@@ -307,7 +307,7 @@ const steps = [
     title: "Clear the ball",
     note: "9 fires it flat to 10, who's driving forward from his usual starting spot to finish it.",
     pos: {
-      TH:[60,660], P1:[255,650], P4:[480,640], P8:[270,655], P5:[286,650], P6:[600,640],
+      TH:[60,660], P1:[240,648], P4:[480,640], P8:[282,662], P5:[325,648], P6:[600,640],
       SH:[420,532], FH:[744,442]
     },
     ball:[744,442],
@@ -329,7 +329,7 @@ function makePlayer(p, color, group, posMap){
   g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
 
   const circle = document.createElementNS(NS,'circle');
-  circle.setAttribute('r', 13);
+  circle.setAttribute('r', 19.5);
   circle.setAttribute('fill', color);
   circle.setAttribute('stroke', '#0f1b14');
   circle.setAttribute('stroke-width', 1.5);
@@ -339,7 +339,7 @@ function makePlayer(p, color, group, posMap){
   text.setAttribute('text-anchor','middle');
   text.setAttribute('dy', 4);
   text.setAttribute('fill', '#f4f1ea');
-  text.setAttribute('font-size', 11);
+  text.setAttribute('font-size', 15);
   text.setAttribute('font-weight', 800);
   text.textContent = p.label;
   g.appendChild(text);

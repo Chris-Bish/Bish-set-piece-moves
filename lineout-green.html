@@ -145,24 +145,24 @@
 
 <div class="stage">
   <div class="pitch-wrap">
-    <svg id="pitch" viewBox="0 330 820 430" xmlns="http://www.w3.org/2000/svg">
+    <svg id="pitch" viewBox="0 330 820 470" xmlns="http://www.w3.org/2000/svg">
       <!-- Touchline -->
-      <line x1="60" y1="20" x2="60" y2="740" stroke="#eef3ec" stroke-width="3"/>
+      <line x1="60" y1="20" x2="60" y2="780" stroke="#eef3ec" stroke-width="3"/>
       <text x="38" y="545" fill="#eef3ec" font-size="11" font-weight="700" transform="rotate(-90 38 545)" opacity="0.8">TOUCHLINE</text>
 
       <!-- 5m line -->
-      <line x1="240" y1="20" x2="240" y2="740" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <line x1="240" y1="20" x2="240" y2="780" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
       <text x="243" y="344" fill="#eef3ec" font-size="10" opacity="0.6">5M</text>
 
       <!-- 15m line -->
-      <line x1="600" y1="20" x2="600" y2="740" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <line x1="600" y1="20" x2="600" y2="780" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
       <text x="603" y="344" fill="#eef3ec" font-size="10" opacity="0.6">15M</text>
 
       <!-- gap guide -->
       <line x1="60" y1="660" x2="600" y2="660" stroke="#ffffff" stroke-width="0.5" opacity="0.15"/>
 
       <!-- direction arrow: attack -->
-      <text x="690" y="735" fill="#9fb3a4" font-size="11" font-weight="700" letter-spacing="1">FIELD →</text>
+      <text x="690" y="775" fill="#9fb3a4" font-size="11" font-weight="700" letter-spacing="1">FIELD →</text>
 
       <!-- Movement arrows layer (drawn dynamically) -->
       <g id="arrows"></g>
@@ -247,7 +247,7 @@ const steps = [
     title: "Ball's away — pod drives",
     note: "The moment it leaves his hand, 1 and 3 close in toward 4, and 4 drives forward off his spot to attack the gap — all still inside the 5m–15m corridor.",
     pos: {
-      TH:[60,660], L1:[248,648], J:[298,652], L2:[318,648],
+      TH:[60,660], L1:[240,646], J:[285,656], L2:[330,648],
       P2:[510,640], P3:[600,640],
       SH:[420,550], FH:[744,370]
     },
@@ -258,7 +258,7 @@ const steps = [
     title: "Lift & catch",
     note: "1 and 3 finish driving 4 up to the top of the jump, right where he attacked the gap. Ball secured above head height.",
     pos: {
-      TH:[60,660], L1:[258,655], J:[270,662], L2:[282,655],
+      TH:[60,660], L1:[240,650], J:[280,664], L2:[320,650],
       P2:[510,640], P3:[600,640],
       SH:[420,550], FH:[744,370]
     },
@@ -269,7 +269,7 @@ const steps = [
     title: "Pop to 9",
     note: "4 fires it back to 9, who hasn't had to move — he was already standing in the right spot, halfway along the line and 2.5m back.",
     pos: {
-      TH:[60,660], L1:[255,650], J:[270,655], L2:[285,650],
+      TH:[60,660], L1:[240,650], J:[280,664], L2:[320,650],
       P2:[510,640], P3:[600,640],
       SH:[420,550], FH:[744,370]
     },
@@ -280,7 +280,7 @@ const steps = [
     title: "Clear the ball",
     note: "9 fires it flat to 10, who's already driving forward onto it from deeper and 19m infield — taking it at pace, well clear of the lineout.",
     pos: {
-      TH:[60,660], L1:[255,650], J:[270,655], L2:[285,650],
+      TH:[60,660], L1:[240,650], J:[280,664], L2:[320,650],
       P2:[510,640], P3:[600,640],
       SH:[420,550], FH:[744,442]
     },
@@ -290,7 +290,7 @@ const steps = [
 ];
 
 const defensePos = {
-  D1:[240,680], D2:[330,680], D3:[420,680], D4:[510,680], D5:[600,680], D9:[330,705]
+  D1:[240,710], D2:[330,710], D3:[420,710], D4:[510,710], D5:[600,710], D9:[380,755]
 };
 
 const svg = document.getElementById('pitch');
@@ -309,7 +309,7 @@ function makePlayer(p, color, group, posMap){
   g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
 
   const circle = document.createElementNS(NS,'circle');
-  circle.setAttribute('r', 13);
+  circle.setAttribute('r', 19.5);
   circle.setAttribute('fill', color);
   circle.setAttribute('stroke', '#0f1b14');
   circle.setAttribute('stroke-width', 1.5);
@@ -319,7 +319,7 @@ function makePlayer(p, color, group, posMap){
   text.setAttribute('text-anchor','middle');
   text.setAttribute('dy', 4);
   text.setAttribute('fill', '#f4f1ea');
-  text.setAttribute('font-size', 11);
+  text.setAttribute('font-size', 15);
   text.setAttribute('font-weight', 800);
   text.textContent = p.label;
   g.appendChild(text);

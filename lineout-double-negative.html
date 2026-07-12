@@ -235,11 +235,11 @@ const defenseRoster = [
 ];
 
 const defensePos = {
-  X1:[240,680], X3:[360,680], X4:[420,680], X5:[480,680], X7:[600,680]
+  X1:[240,710], X3:[360,710], X4:[420,710], X5:[480,710], X7:[600,710]
 };
 
 const ohRoster = [{id:'OH', label:'2'}];
-const ohPos = {OH:[132,755]};
+const ohPos = {OH:[133,750]};
 
 const steps = [
   {
@@ -256,7 +256,7 @@ const steps = [
     title: "Decoy forms — looks like Green",
     note: "1 and 8 collapse in on 4 at the front — exactly like Negative, exactly like Green's real lift. Nothing here gives away which move this is.",
     pos: {
-      TH:[60,660], P1:[258,650], P4:[270,655], P8:[282,650], P5:[480,640], P6:[600,640],
+      TH:[60,660], P1:[240,646], P4:[280,660], P8:[322,648], P5:[480,640], P6:[600,640],
       SH:[330,532], FH:[744,370]
     },
     ball:[60,660],
@@ -266,7 +266,7 @@ const steps = [
     title: "1 peels away — 4 and 8 keep selling it",
     note: "1 breaks out the back door and heads for the back pod, exactly as in Negative. 9 is already moving from S2 towards S4. Still identical to Negative.",
     pos: {
-      TH:[60,660], P1:[400,644], P4:[258,652], P8:[268,648], P5:[480,640], P6:[600,640],
+      TH:[60,660], P1:[400,644], P4:[240,648], P8:[285,658], P5:[480,640], P6:[600,640],
       SH:[485,536], FH:[744,370]
     },
     ball:[60,660],
@@ -276,7 +276,7 @@ const steps = [
     title: "Back pod sets — looks exactly like Negative",
     note: "1 and 6 are either side of 5 at the back, 9 is set at S4 — the picture is identical to Negative right up to this point. The defence has no way to tell them apart yet.",
     pos: {
-      TH:[60,660], P1:[465,650], P4:[258,652], P8:[268,648], P5:[480,640], P6:[555,646],
+      TH:[60,660], P1:[440,654], P4:[240,648], P8:[285,658], P5:[480,640], P6:[555,646],
       SH:[510,532], FH:[744,370]
     },
     ball:[60,660],
@@ -286,7 +286,7 @@ const steps = [
     title: "Back pod lifts — noise draws them in, short ball to 4",
     note: "1 and 6 fully commit and lift 5 — the same real, noisy lift as Negative, shouting the call and drawing every eye. At the exact same moment, 2 throws short and flat, straight to 4 at the front.",
     pos: {
-      TH:[60,660], P1:[495,655], P4:[258,652], P8:[268,648], P5:[510,660], P6:[525,655],
+      TH:[60,660], P1:[468,650], P4:[240,648], P8:[285,658], P5:[510,666], P6:[552,650],
       SH:[510,532], FH:[744,370]
     },
     ball:[180,655],
@@ -296,7 +296,7 @@ const steps = [
     title: "4 catches clean",
     note: "Clean take at the front. The back pod is still up in the air, mid-lift, having drawn the defence's attention — but the ball was never coming to them.",
     pos: {
-      TH:[60,660], P1:[495,650], P4:[258,652], P8:[268,648], P5:[510,655], P6:[525,650],
+      TH:[60,660], P1:[468,648], P4:[240,648], P8:[285,658], P5:[510,660], P6:[552,648],
       SH:[510,532], FH:[744,370]
     },
     ball:[258,652],
@@ -306,7 +306,7 @@ const steps = [
     title: "4 drives 1m up the field — 2 steps in support",
     note: "4 is now 3m in from the touchline, and 1m further up the field (toward their try line) than where he caught it. 2 has moved 1m infield, square and perpendicular to the touchline.",
     pos: {
-      TH:[96,660], P1:[495,650], P4:[168,688], P8:[268,648], P5:[510,655], P6:[525,650],
+      TH:[96,660], P1:[468,648], P4:[168,688], P8:[285,658], P5:[510,660], P6:[552,648],
       SH:[510,532], FH:[744,370]
     },
     ball:[168,688],
@@ -316,11 +316,11 @@ const steps = [
     title: "Another 2m up — 4 passes to 2",
     note: "Both 4 and 2 have driven another 2m up the field, either side of their 2 — he doesn't know which one to tackle. 4 gives it to our 2 right there.",
     pos: {
-      TH:[95,755], P1:[495,650], P4:[170,760], P8:[268,648], P5:[510,655], P6:[525,650],
+      TH:[85,745], P1:[468,648], P4:[180,762], P8:[285,658], P5:[510,660], P6:[552,648],
       SH:[510,532], FH:[744,370]
     },
-    ball:[95,755],
-    arrow:{from:[170,760], to:[95,755]}
+    ball:[85,745],
+    arrow:{from:[180,762], to:[85,745]}
   },
 ];
 
@@ -339,7 +339,7 @@ function makePlayer(p, color, group, posMap){
   g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
 
   const circle = document.createElementNS(NS,'circle');
-  circle.setAttribute('r', 13);
+  circle.setAttribute('r', 19.5);
   circle.setAttribute('fill', color);
   circle.setAttribute('stroke', '#0f1b14');
   circle.setAttribute('stroke-width', 1.5);
@@ -349,7 +349,7 @@ function makePlayer(p, color, group, posMap){
   text.setAttribute('text-anchor','middle');
   text.setAttribute('dy', 4);
   text.setAttribute('fill', '#f4f1ea');
-  text.setAttribute('font-size', 11);
+  text.setAttribute('font-size', 15);
   text.setAttribute('font-weight', 800);
   text.textContent = p.label;
   g.appendChild(text);

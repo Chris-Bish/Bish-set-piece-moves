@@ -211,8 +211,8 @@ const NS = "http://www.w3.org/2000/svg";
 // 5 stays at L5 throughout and is the planned catcher — the real target at the back.
 const attackRoster = [
   {id:'P1', label:'1', role:'Starts L1 — fronts the decoy, then sprints to lift at the back'},
-  {id:'P4', label:'4', role:'Starts L3 — holds the front decoy the whole way through'},
-  {id:'P8', label:'8', role:'Starts L4 — fake-lifted at the front, holds the decoy'},
+  {id:'P4', label:'4', role:'Starts L3 — fake-lifted at the front, holds the decoy'},
+  {id:'P8', label:'8', role:'Starts L4 — holds the front decoy the whole way through'},
   {id:'P5', label:'5', role:'Starts L5 — stays put, becomes the real jumper'},
   {id:'P6', label:'6', role:'Starts L7 — shifts forward to help lift 5'},
   {id:'SH', label:'9', role:'Scrum-half (S2 → S4)'},
@@ -229,7 +229,7 @@ const defenseRoster = [
 ];
 
 const defensePos = {
-  X1:[240,680], X3:[360,680], X4:[420,680], X5:[480,680], X7:[600,680]
+  X1:[240,710], X3:[360,710], X4:[420,710], X5:[480,710], X7:[600,710]
 };
 
 const steps = [
@@ -245,9 +245,9 @@ const steps = [
   },
   {
     title: "Decoy forms — looks like Green",
-    note: "1 and 4 collapse in on 8 at the front — the exact shape of Green's real lift. Defenders' eyes are drawn in. The ball hasn't left 2's hands.",
+    note: "1 and 8 collapse in on 4 at the front — the exact shape of Green's real lift. Defenders' eyes are drawn in. The ball hasn't left 2's hands.",
     pos: {
-      TH:[60,660], P1:[258,650], P4:[282,650], P8:[270,655], P5:[480,640], P6:[600,640],
+      TH:[60,660], P1:[240,646], P4:[280,660], P8:[322,648], P5:[480,640], P6:[600,640],
       SH:[330,532], FH:[744,370]
     },
     ball:[60,660],
@@ -257,7 +257,7 @@ const steps = [
     title: "1 peels away — 4 and 8 keep selling it",
     note: "1 breaks out the back door and heads for the real target. 4 and 8 step forward a touch to keep the decoy alive. 9 is already moving from S2 towards S4.",
     pos: {
-      TH:[60,660], P1:[400,644], P4:[268,648], P8:[258,652], P5:[480,640], P6:[600,640],
+      TH:[60,660], P1:[400,644], P4:[240,648], P8:[285,658], P5:[480,640], P6:[600,640],
       SH:[485,536], FH:[744,370]
     },
     ball:[60,660],
@@ -267,7 +267,7 @@ const steps = [
     title: "Back pod sets — real target ready",
     note: "1 and 6 are now either side of 5 at the real target. 9 is set at S4. Everything's ready — but the ball still hasn't left 2's hands.",
     pos: {
-      TH:[60,660], P1:[465,650], P4:[268,648], P8:[258,652], P5:[480,640], P6:[555,646],
+      TH:[60,660], P1:[440,654], P4:[240,648], P8:[285,658], P5:[480,640], P6:[555,646],
       SH:[510,532], FH:[744,370]
     },
     ball:[60,660],
@@ -277,7 +277,7 @@ const steps = [
     title: "Ball's away — back pod lifts",
     note: "Only now does 2 release it — a long, flat throw straight down to the back. 1 and 6 drive 5 up to claim it, exactly like Yellow.",
     pos: {
-      TH:[60,660], P1:[495,655], P4:[268,648], P8:[258,652], P5:[510,660], P6:[525,655],
+      TH:[60,660], P1:[468,650], P4:[240,648], P8:[285,658], P5:[510,666], P6:[552,650],
       SH:[510,532], FH:[744,370]
     },
     ball:[300,660],
@@ -287,7 +287,7 @@ const steps = [
     title: "Lift & catch",
     note: "Clean catch at the back — same shape as Yellow, but set up by a completely different route: a front decoy that peeled all the way around.",
     pos: {
-      TH:[60,660], P1:[495,652], P4:[268,648], P8:[258,652], P5:[510,662], P6:[525,652],
+      TH:[60,660], P1:[468,648], P4:[240,648], P8:[285,658], P5:[510,664], P6:[552,648],
       SH:[510,532], FH:[744,370]
     },
     ball:[510,662],
@@ -297,7 +297,7 @@ const steps = [
     title: "Pop to 9",
     note: "5 fires it back to 9, who's already sitting at S4, right in behind the real target.",
     pos: {
-      TH:[60,660], P1:[495,650], P4:[268,648], P8:[258,652], P5:[510,655], P6:[525,650],
+      TH:[60,660], P1:[468,648], P4:[240,648], P8:[285,658], P5:[510,660], P6:[552,648],
       SH:[510,532], FH:[744,370]
     },
     ball:[510,532],
@@ -307,7 +307,7 @@ const steps = [
     title: "Clear the ball",
     note: "9 fires it flat to 10, who's driving forward from his usual starting spot to finish it.",
     pos: {
-      TH:[60,660], P1:[495,650], P4:[268,648], P8:[258,652], P5:[510,655], P6:[525,650],
+      TH:[60,660], P1:[468,648], P4:[240,648], P8:[285,658], P5:[510,660], P6:[552,648],
       SH:[510,532], FH:[744,442]
     },
     ball:[744,442],
@@ -329,7 +329,7 @@ function makePlayer(p, color, group, posMap){
   g.style.transition = 'transform 0.7s cubic-bezier(.4,0,.2,1)';
 
   const circle = document.createElementNS(NS,'circle');
-  circle.setAttribute('r', 13);
+  circle.setAttribute('r', 19.5);
   circle.setAttribute('fill', color);
   circle.setAttribute('stroke', '#0f1b14');
   circle.setAttribute('stroke-width', 1.5);
@@ -339,7 +339,7 @@ function makePlayer(p, color, group, posMap){
   text.setAttribute('text-anchor','middle');
   text.setAttribute('dy', 4);
   text.setAttribute('fill', '#f4f1ea');
-  text.setAttribute('font-size', 11);
+  text.setAttribute('font-size', 15);
   text.setAttribute('font-weight', 800);
   text.textContent = p.label;
   g.appendChild(text);
