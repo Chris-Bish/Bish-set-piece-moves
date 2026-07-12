@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kick-off — Receiving | Team Shape</title>
+<style>
+  :root{
+    --pitch:#1f5c38;
+    --pitch-line:#eef3ec;
+    --attack:#1b3a5c;
+    --attack-light:#3a6ea5;
+    --defense:#7a2e2e;
+    --ball:#a9712f;
+    --accent:#e8a33d;
+    --ink:#0f1b14;
+    --panel:#16241b;
+    --panel-2:#1d3024;
+    --paper:#f4f1ea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    font-family:'Bahnschrift','Segoe UI Semibold','Arial Narrow',system-ui,sans-serif;
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:24px 14px 40px;
+  }
+  h1{
+    font-size:clamp(20px,4vw,30px);
+    letter-spacing:0.5px;
+    margin:0 0 2px;
+    text-transform:uppercase;
+    font-weight:800;
+  }
+  .sub{
+    color:#9fb3a4;
+    font-size:13px;
+    margin-bottom:18px;
+    letter-spacing:0.4px;
+  }
+  .stage{
+    width:100%;
+    max-width:820px;
+    background:var(--panel);
+    border:1px solid #2a3c30;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .pitch-wrap{
+    background:var(--pitch);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.025) 0 40px, rgba(0,0,0,0.02) 40px 80px);
+  }
+  svg{display:block; width:100%; height:auto;}
+  .legend{
+    display:flex;
+    gap:18px;
+    padding:14px 16px;
+    font-size:12px;
+    color:#9fb3a4;
+    flex-wrap:wrap;
+    border-top:1px solid #2a3c30;
+  }
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .swatch{width:10px;height:10px;border-radius:50%;display:inline-block;}
+</style>
+</head>
+<body>
+
+<h1>Kick-off — Receiving</h1>
+<div class="sub">TEAM SHAPE · ALL PLAYERS ONSIDE, BEYOND THE 10M LINE</div>
+
+<div class="stage">
+  <div class="pitch-wrap">
+    <svg id="pitch" viewBox="940 0 1260 1480" xmlns="http://www.w3.org/2000/svg">
+      <!-- Touchlines -->
+      <line x1="40" y1="0" x2="40" y2="1880" stroke="#eef3ec" stroke-width="3"/>
+      <line x1="2200" y1="0" x2="2200" y2="1880" stroke="#eef3ec" stroke-width="3"/>
+
+      <!-- 5m lines (from touchline) -->
+      <line x1="220" y1="0" x2="220" y2="1880" stroke="#eef3ec" stroke-width="1" stroke-dasharray="6 6" opacity="0.35"/>
+      <line x1="2020" y1="0" x2="2020" y2="1880" stroke="#eef3ec" stroke-width="1" stroke-dasharray="6 6" opacity="0.35"/>
+
+      <!-- 15m lines (from touchline) -->
+      <line x1="580" y1="0" x2="580" y2="1880" stroke="#eef3ec" stroke-width="1" stroke-dasharray="6 6" opacity="0.35"/>
+      <line x1="1660" y1="0" x2="1660" y2="1880" stroke="#eef3ec" stroke-width="1" stroke-dasharray="6 6" opacity="0.35"/>
+
+      <!-- Halfway line -->
+      <line x1="20" y1="40" x2="2220" y2="40" stroke="#eef3ec" stroke-width="3"/>
+      <text x="2190" y="34" fill="#eef3ec" font-size="16" font-weight="700" text-anchor="end">HALFWAY</text>
+
+      <!-- 10m line -->
+      <line x1="20" y1="400" x2="2220" y2="400" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="10 8" opacity="0.6"/>
+      <text x="2190" y="394" fill="#eef3ec" font-size="14" opacity="0.75" text-anchor="end">10M</text>
+
+      <!-- 22m line -->
+      <line x1="20" y1="1048" x2="2220" y2="1048" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <text x="2190" y="1042" fill="#eef3ec" font-size="14" opacity="0.75" text-anchor="end">22M</text>
+
+      <!-- 5m line -->
+      <line x1="20" y1="1660" x2="2220" y2="1660" stroke="#eef3ec" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.5"/>
+      <text x="2208" y="1654" fill="#eef3ec" font-size="14" opacity="0.75" text-anchor="end">5M</text>
+
+      <!-- Try line -->
+      <line x1="20" y1="1840" x2="2220" y2="1840" stroke="#eef3ec" stroke-width="3"/>
+      <text x="2208" y="1834" fill="#eef3ec" font-size="16" font-weight="700" text-anchor="end">TRY LINE</text>
+
+      <!-- Kicker (opposition) -->
+      <g transform="translate(1120,40)">
+        <circle r="19.5" fill="var(--defense)" stroke="#0f1b14" stroke-width="1.5"/>
+        <text text-anchor="middle" dy="4" fill="#f4f1ea" font-size="15" font-weight="800">K</text>
+      </g>
+
+      <!-- Receiving team -->
+      <g id="players"></g>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--attack)"></i> Receiving team</span>
+    <span><i class="swatch" style="background:var(--defense)"></i> Opposition kicker</span>
+  </div>
+</div>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById('pitch');
+const group = document.getElementById('players');
+
+// Scale: 36px/m, matching the lineout diagrams. Pitch: 100m long, 60m wide.
+const SCALE = 36;
+const CENTER_X = 1120;  // kicker's width position (30m from each touchline)
+const HALFWAY_Y = 40;   // halfway line
+
+// width: metres from centre; depth: metres from halfway (toward the try line)
+const players = [
+  {label:'1', width:5,  depth:14},
+  {label:'2', width:16, depth:14},
+  {label:'3', width:28, depth:14},
+  {label:'4', width:10, depth:23},
+  {label:'5', width:24, depth:23},
+  {label:'6', width:8,  depth:31},
+  {label:'7', width:26, depth:31},
+  {label:'8', width:19, depth:32},
+  {label:'9', width:0,  depth:28},
+];
+
+players.forEach(p=>{
+  const x = CENTER_X + p.width * SCALE;
+  const y = HALFWAY_Y + p.depth * SCALE;
+
+  const g = document.createElementNS(NS,'g');
+  g.setAttribute('transform', `translate(${x},${y})`);
+
+  const circle = document.createElementNS(NS,'circle');
+  circle.setAttribute('r', 19.5);
+  circle.setAttribute('fill', 'var(--attack)');
+  circle.setAttribute('stroke', '#0f1b14');
+  circle.setAttribute('stroke-width', 1.5);
+  g.appendChild(circle);
+
+  const text = document.createElementNS(NS,'text');
+  text.setAttribute('text-anchor','middle');
+  text.setAttribute('dy', 4);
+  text.setAttribute('fill', '#f4f1ea');
+  text.setAttribute('font-size', 15);
+  text.setAttribute('font-weight', 800);
+  text.textContent = p.label;
+  g.appendChild(text);
+
+  group.appendChild(g);
+});
+</script>
+</body>
+</html>
